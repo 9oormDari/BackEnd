@@ -1,4 +1,4 @@
-package com.goormdari.domain.user.domain;
+package com.goormdari.domain.history.domain;
 
 import com.goormdari.domain.common.BaseEntity;
 import com.goormdari.domain.team.domain.Team;
@@ -12,26 +12,24 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class User extends BaseEntity {
+public class History extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
-    private String nickname;
-    private String username;
-    private String password;
-    private String profileUrl;
+    private String goal;
 
-    private int currentStep;
+    private String routine1;
+    private String routine2;
+    private String routine3;
+    private String routine4;
 
-    private String routineImg1;
-    private String routineImg2;
-    private String routineImg3;
-    private String routineImg4;
+    private Boolean isSuccess;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
 }
