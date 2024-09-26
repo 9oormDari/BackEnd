@@ -22,7 +22,9 @@ public class Calendar extends BaseEntity {
 
     private int success_count;
 
-    private String userId;
+    private Long userId;
 
     private LocalDate date;
+
+    private String goal;
 }
