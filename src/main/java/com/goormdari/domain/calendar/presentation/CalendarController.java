@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CalendarController {
 
     @GetMapping("/test")
-    public void test() {
-        System.out.println("test");
+    public String test() {
+        return "안뇽";
     }
 
 }
