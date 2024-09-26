@@ -47,7 +47,7 @@ jobs:
 
       # 3. Docker 이미지 빌드
       - name: docker image build
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/goormDari .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/goormdari .
 
       # 4. DockerHub 로그인
       - name: docker login
@@ -58,7 +58,7 @@ jobs:
 
       # 5. Docker Hub 이미지 푸시
       - name: docker Hub push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/goormDari
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/goormdari
 
   run-docker-image-on-ec2:
     needs: build-docker-image
@@ -67,7 +67,7 @@ jobs:
     steps:
       # 1. 최신 이미지를 풀받습니다
       - name: docker pull
-        run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/goormDari
+        run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/goormdari
 
       # 2. 기존의 컨테이너를 중지시킵니다
       - name: docker stop container
@@ -75,7 +75,7 @@ jobs:
 
       # 3. 최신 이미지를 컨테이너화하여 실행시킵니다
       - name: docker run new container
-        run: sudo docker run --name goormDari --rm -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/goormDari
+        run: sudo docker run --name goormdari --rm -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/goormdari
 
       # 4. 미사용 이미지를 정리합니다
       - name: delete old docker image
