@@ -4,6 +4,7 @@ import com.goormdari.domain.team.application.TeamService;
 import com.goormdari.domain.team.dto.request.CreateTeamRequest;
 import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.global.payload.ErrorResponse;
+import com.goormdari.global.payload.Message;
 import com.goormdari.global.payload.ResponseCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,4 +38,16 @@ public class TeamController {
         return ResponseCustom.OK(teamService.createNewTeam(userId, createTeamRequest));
     }
 
+    @Operation(summary = "팀(방) 참여코드 전달", description = "팀(방) 참여코드를 이메일로 전달합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "팀(방) 참여코드 전달 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Message.class))}),
+            @ApiResponse(responseCode = "400", description = "팀(방) 참여코드 전달 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @PostMapping("/email/{guestId}")
+    public ResponseCustom<Message> sendJoinCode(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader Long userId,
+            @Parameter(description = "초대할 유저의 id를 입력해주세요.", required = true) @PathVariable Long guestId
+    ) {
+        return ResponseCustom.OK(teamService.sendCode(userId, guestId));
+    }
 }
