@@ -2,14 +2,10 @@ package com.goormdari.domain.team.domain;
 
 import com.goormdari.domain.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Getter
@@ -31,5 +27,17 @@ public class Team extends BaseEntity {
     private String routine3;
     private String routine4;
 
+    private String joinCode;
 
+
+    @Builder
+    public Team(String goal, LocalDate deadLine, String routine1, String routine2, String routine3, String routine4, String joinCode) {
+        this.goal = goal;
+        this.deadLine = deadLine;
+        this.routine1 = routine1;
+        this.routine2 = routine2;
+        this.routine3 = routine3;
+        this.routine4 = routine4;
+        this.joinCode = joinCode;
+    }
 }
