@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,11 +33,22 @@ public class User extends BaseEntity {
     private String routineImg3;
     private String routineImg4;
 
+    private String goal;
+    private LocalDate deadLine;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
     public void updateTeam(Team team) {
         this.team = team;
+    }
+
+    public void updateGoal(String goal) {
+        this.goal = goal;
+    }
+
+    public void updateDeadLine(LocalDate deadLine) {
+        this.deadLine = deadLine;
     }
 }

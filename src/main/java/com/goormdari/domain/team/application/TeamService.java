@@ -47,6 +47,8 @@ public class TeamService {
         teamRepository.save(team);
 
         user.updateTeam(team);
+        user.updateGoal(team.getGoal());
+        user.updateDeadLine(team.getDeadLine());
 
         return CreateTeamResponse
                 .builder()
