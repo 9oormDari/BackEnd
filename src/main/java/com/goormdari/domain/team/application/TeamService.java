@@ -8,6 +8,8 @@ import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.domain.team.exception.TeamAlreadyExistException;
 import com.goormdari.domain.user.domain.User;
 import com.goormdari.domain.user.domain.repository.UserRepository;
+import com.goormdari.global.config.email.EmailClient;
+import com.goormdari.global.payload.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ public class TeamService {
 
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
+
+    private final EmailClient emailClient;
 
 
     @Transactional
@@ -53,6 +57,24 @@ public class TeamService {
         return CreateTeamResponse
                 .builder()
                 .joinCode(joinCode)
+                .build();
+    }
+
+
+    public Message sendCode(Long userId, Long guestId) {
+
+        User hostUser = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        User guestUser = userRepository.findById(guestId)
+                .orElseThrow(() -> new NotFoundException("Guest not found"));
+
+        String joinCode = userRepository.findJoinCodeByUserId(userId);
+
+        emailClient.sendOneEmail(hostUser.getNickname(), guestUser.getEmail(), joinCode);
+
+        return Message.builder()
+                .message("이메일 전송에 성공했습니다.")
                 .build();
     }
 }
