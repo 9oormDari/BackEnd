@@ -28,8 +28,8 @@ public class TeamService {
 
 
     @Transactional
-    public CreateTeamResponse createNewTeam(final Long userId, final CreateTeamRequest createTeamRequest) {
-        User user = userRepository.findById(userId)
+    public CreateTeamResponse createNewTeam(final String username, final CreateTeamRequest createTeamRequest) {
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         if (user.getTeam() != null) {
@@ -61,15 +61,15 @@ public class TeamService {
     }
 
 
-    public Message sendCode(Long userId, Long guestId) {
+    public Message sendCode(String username, Long guestId) {
 
-        User hostUser = userRepository.findById(userId)
+        User hostUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         User guestUser = userRepository.findById(guestId)
                 .orElseThrow(() -> new NotFoundException("Guest not found"));
 
-        String joinCode = userRepository.findJoinCodeByUserId(userId);
+        String joinCode = userRepository.findJoinCodeByUserId(hostUser.getId());
 
         emailClient.sendOneEmail(hostUser.getNickname(), guestUser.getEmail(), joinCode);
 
