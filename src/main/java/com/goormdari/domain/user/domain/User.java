@@ -31,6 +31,8 @@ public class User extends BaseEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    private String email;
+
     private String profileUrl;
 
     private String routinImg1;
