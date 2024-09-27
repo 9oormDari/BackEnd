@@ -1,14 +1,22 @@
 package com.goormdari.domain.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.goormdari.domain.common.BaseEntity;
+import com.goormdari.domain.team.domain.Team;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class User {
+
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +43,9 @@ public class User {
     private String routinImg4;
 
     private String role;
+  
+    private String goal;
+    private LocalDate deadLine;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
