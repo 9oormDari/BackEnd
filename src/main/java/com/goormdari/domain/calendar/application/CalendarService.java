@@ -20,11 +20,12 @@ public class CalendarService {
     private final UserRepository userRepository;
 
 
-    public CheckGoalProgressResponse searchCheckGoalProgress(Long userId, YearMonth date) {
-        User user = userRepository.findById(userId)
+    public CheckGoalProgressResponse searchCheckGoalProgress(String username, YearMonth date) {
+        System.out.println("username = " + username);
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        CheckGoalProgressResponse checkGoalProgressResponse = calendarRepository.findByIdAndDate(userId, date);
+        CheckGoalProgressResponse checkGoalProgressResponse = calendarRepository.findByIdAndDate(user.getId(), date);
 
         return checkGoalProgressResponse;
     }

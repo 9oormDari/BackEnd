@@ -46,6 +46,8 @@ public class CalendarQueryDslRepositoryImpl implements CalendarQueryDslRepositor
                         calendar.date.between(startDate, endDate)
                 )
                 .fetch();
+        
+
 
         String goal = userInfo.getGoal();
 
