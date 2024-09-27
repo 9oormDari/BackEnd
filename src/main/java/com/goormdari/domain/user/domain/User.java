@@ -1,5 +1,6 @@
 package com.goormdari.domain.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.goormdari.domain.common.BaseEntity;
 import com.goormdari.domain.team.domain.Team;
 import jakarta.persistence.*;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+
 public class User extends BaseEntity {
 
     @Id
@@ -21,20 +23,27 @@ public class User extends BaseEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    private String email;
-
-    private String nickname;
-    private String username;
-    private String password;
-    private String profileUrl;
-
     private int currentStep;
 
-    private String routineImg1;
-    private String routineImg2;
-    private String routineImg3;
-    private String routineImg4;
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
 
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+
+    @JsonIgnore
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    private String profileUrl;
+
+    private String routinImg1;
+    private String routinImg2;
+    private String routinImg3;
+    private String routinImg4;
+
+    private String role;
+  
     private String goal;
     private LocalDate deadLine;
 
@@ -52,5 +61,13 @@ public class User extends BaseEntity {
 
     public void updateDeadLine(LocalDate deadLine) {
         this.deadLine = deadLine;
+    }
+
+    @Builder
+    public User(String nickname, String username, String password, String role) {
+        this.nickname = nickname;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 }
