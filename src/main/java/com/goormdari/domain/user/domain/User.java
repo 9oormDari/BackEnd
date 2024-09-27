@@ -2,17 +2,12 @@ package com.goormdari.domain.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.Set;
-
-@Table(name = "users")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -40,6 +35,22 @@ public class User {
     private String routinImg4;
 
     private String role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    public void updateTeam(Team team) {
+        this.team = team;
+    }
+
+    public void updateGoal(String goal) {
+        this.goal = goal;
+    }
+
+    public void updateDeadLine(LocalDate deadLine) {
+        this.deadLine = deadLine;
+    }
 
     @Builder
     public User(String nickname, String username, String password, String role) {

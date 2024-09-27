@@ -34,9 +34,6 @@ public class UserService {
             throw new IllegalArgumentException("Username is already exists.");
         }
 
-        log.debug("Registering user with username: {}", dto.getUsername());
-        log.debug("Registering user with password: {}", dto.getPassword());
-
         // 사용자 저장
         return userRepository.save(User.builder()
                 .nickname(dto.getNickname())
