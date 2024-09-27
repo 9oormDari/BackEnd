@@ -7,9 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
-@Table(name = "users")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
