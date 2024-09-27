@@ -12,7 +12,8 @@ public record CheckGoalProgressResponse(
         String profileUrl,
         String goal,
         int dDay,
-        List<DayAchive> dayAchiveList
+        List<DayAchive> dayAchiveList,
+        Double routineCompletionRate
 ) {
     public record DayAchive(
             LocalDate date,
@@ -21,11 +22,12 @@ public record CheckGoalProgressResponse(
     }
 
     @QueryProjection
-    public CheckGoalProgressResponse(String nickname, String profileUrl, String goal, int dDay, List<DayAchive> dayAchiveList) {
+    public CheckGoalProgressResponse(String nickname, String profileUrl, String goal, int dDay, List<DayAchive> dayAchiveList, Double routineCompletionRate) {
         this.nickname = nickname;
         this.profileUrl = profileUrl;
         this.goal = goal;
         this.dDay = dDay;
         this.dayAchiveList = dayAchiveList;
+        this.routineCompletionRate = routineCompletionRate;
     }
 }
