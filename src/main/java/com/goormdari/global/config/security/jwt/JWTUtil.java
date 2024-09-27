@@ -1,6 +1,5 @@
 package com.goormdari.global.config.security.jwt;
 
-import com.goormdari.domain.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
