@@ -8,6 +8,7 @@ import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
 import com.goormdari.domain.team.exception.TeamAlreadyExistException;
 import com.goormdari.domain.user.domain.User;
+import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
 import com.goormdari.domain.user.domain.repository.UserRepository;
 import com.goormdari.global.config.email.EmailClient;
 import com.goormdari.global.payload.Message;
@@ -15,7 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +43,19 @@ public class TeamService {
                 .routine3(team.getRoutine3())
                 .routine4(team.getRoutine4())
                 .build();
+    }
+
+    @jakarta.transaction.Transactional
+    public List<findByTeamIdResponse> findTeamByUserId(Long userId) {
+        Long teamId = userRepository.findById(userId)
+                .orElseThrow(()->new NotFoundException("User Not Found")).getTeam().getId();
+        List<User> users = userRepository.findByTeamId(teamId);
+        return  users.stream()
+                .map(user -> findByTeamIdResponse.builder()
+                        .id(user.getId())
+                        .username(user.getUsername())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Transactional
