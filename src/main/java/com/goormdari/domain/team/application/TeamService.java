@@ -103,7 +103,7 @@ public class TeamService {
 
         String joinCode = userRepository.findJoinCodeByUserId(hostUser.getId());
 
-        emailClient.sendOneEmail(hostUser.getNickname(), email, joinCode);
+        emailClient.sendOneEmail(hostUser.getNickname(), email, joinCode, hostUser.getTeam().getName());
 
         return Message.builder()
                 .message("이메일 전송에 성공했습니다.")
