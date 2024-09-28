@@ -1,6 +1,7 @@
 package com.goormdari.domain.user.presentation;
 
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
+import com.goormdari.domain.user.dto.request.UpdateUserRequest;
 import com.goormdari.domain.user.dto.response.UserInfoResponse;
 import com.goormdari.domain.user.service.UserService;
 import com.goormdari.domain.user.dto.response.FindCurrentStepResponse;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
