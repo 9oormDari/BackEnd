@@ -5,6 +5,7 @@ import com.goormdari.domain.team.domain.Team;
 import com.goormdari.domain.team.domain.repository.TeamRepository;
 import com.goormdari.domain.team.dto.request.CreateTeamRequest;
 import com.goormdari.domain.team.dto.response.CreateTeamResponse;
+import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
 import com.goormdari.domain.team.exception.TeamAlreadyExistException;
 import com.goormdari.domain.user.domain.User;
 import com.goormdari.domain.user.domain.repository.UserRepository;
@@ -26,6 +27,20 @@ public class TeamService {
 
     private final EmailClient emailClient;
 
+    @Transactional
+    public findAllRoutineByUserIdResponse findAllRoutineByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        Team team = teamRepository.findById(user.getTeam().getId())
+                .orElseThrow(() -> new NotFoundException("Team not found"));
+        return findAllRoutineByUserIdResponse.builder()
+                .routine1(team.getRoutine1())
+                .routine2(team.getRoutine2())
+                .routine3(team.getRoutine3())
+                .routine4(team.getRoutine4())
+                .build();
+    }
 
     @Transactional
     public CreateTeamResponse createNewTeam(final String username, final CreateTeamRequest createTeamRequest) {

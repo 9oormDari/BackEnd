@@ -1,8 +1,10 @@
 package com.goormdari.domain.team.presentation;
 
+import com.goormdari.domain.calendar.exception.InvalidTokenException;
 import com.goormdari.domain.team.application.TeamService;
 import com.goormdari.domain.team.dto.request.CreateTeamRequest;
 import com.goormdari.domain.team.dto.response.CreateTeamResponse;
+import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import com.goormdari.global.payload.ErrorResponse;
 import com.goormdari.global.payload.Message;
@@ -81,4 +83,26 @@ public class TeamController {
         String username = jwtUtil.extractUsername(jwt);
         return ResponseCustom.OK(teamService.join(username, joinCode));
     }
+
+    @Operation(summary = "루틴 목록 조회", description = "teamId로 설정된 루틴 목록 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "루틴 목록 조회 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CreateTeamResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "루틴 목록 조회 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @GetMapping("/routine-list")
+    public ResponseCustom<findAllRoutineByUserIdResponse> getRoutineList(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token
+    ) {
+        if (token == null) {
+            throw new InvalidTokenException();
+        }
+
+        String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
+        if (!jwtUtil.validateToken(jwt)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        Long userId = jwtUtil.extractId(jwt);
+        return ResponseCustom.OK(teamService.findAllRoutineByUserId(userId));
+    }
+
 }
