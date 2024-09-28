@@ -56,4 +56,13 @@ public class Team extends BaseEntity {
         this.routine4 = routine4;
         this.joinCode = joinCode;
     }
+
+    public void updateForRegenerateObject(String goal, LocalDate deadLine, String routine1, String routine2, String routine3, String routine4) {
+        this.goal = goal;
+        this.deadLine = deadLine;
+        this.routine1 = routine1;
+        this.routine2 = routine2;
+        this.routine3 = routine3;
+        this.routine4 = routine4;
+    }
 }
