@@ -26,15 +26,15 @@ public class Routine extends BaseEntity {
     @JsonIgnore
     private User user;
 
+    @Column(name = "routine_img")
     private String routineImg;
 
+    @Column(name = "routine_index")
     private Long routineIndex;
 
+    @Column(name = "routine_name")
     private String routineName;
 
-    @CreatedDate
-    @Column(name= "create_at")
-    private LocalDateTime createdAt;
 
     @Builder
     public Routine(User user, String routineImg, Long routineIndex, String routineName) {
