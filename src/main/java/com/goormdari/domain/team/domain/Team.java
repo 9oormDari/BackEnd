@@ -34,9 +34,6 @@ public class Team extends BaseEntity {
 
     private String joinCode;
 
-    @OneToMany(mappedBy = "team")
-    private List<User> users = new ArrayList<User>();
-
     @Builder
     public Team(String name, String goal, LocalDate deadLine, String routine1, String routine2, String routine3, String routine4, String joinCode) {
         this.name = name;
