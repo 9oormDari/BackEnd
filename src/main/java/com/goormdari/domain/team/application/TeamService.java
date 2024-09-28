@@ -8,7 +8,7 @@ import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
 import com.goormdari.domain.team.exception.TeamAlreadyExistException;
 import com.goormdari.domain.user.domain.User;
-import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
+import com.goormdari.domain.team.dto.response.findByTeamIdResponse;
 import com.goormdari.domain.user.domain.repository.UserRepository;
 import com.goormdari.global.config.email.EmailClient;
 import com.goormdari.global.payload.Message;
@@ -45,15 +45,17 @@ public class TeamService {
                 .build();
     }
 
-    @jakarta.transaction.Transactional
+    @Transactional
     public List<findByTeamIdResponse> findTeamByUserId(Long userId) {
         Long teamId = userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException("User Not Found")).getTeam().getId();
         List<User> users = userRepository.findByTeamId(teamId);
         return  users.stream()
+                .filter(user -> !user.getId().equals(userId)) // userId와 일치하지 않는 사용자만 필터링
                 .map(user -> findByTeamIdResponse.builder()
                         .id(user.getId())
                         .username(user.getUsername())
+                        .profileUrl(user.getProfileUrl())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -93,17 +95,15 @@ public class TeamService {
     }
 
 
-    public Message sendCode(String username, Long guestId) {
+    public Message sendCode(String username, String email) {
 
         User hostUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
-        User guestUser = userRepository.findById(guestId)
-                .orElseThrow(() -> new NotFoundException("Guest not found"));
 
         String joinCode = userRepository.findJoinCodeByUserId(hostUser.getId());
 
-        emailClient.sendOneEmail(hostUser.getNickname(), guestUser.getEmail(), joinCode);
+        emailClient.sendOneEmail(hostUser.getNickname(), email, joinCode);
 
         return Message.builder()
                 .message("이메일 전송에 성공했습니다.")

@@ -6,7 +6,6 @@ import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import com.goormdari.global.payload.ErrorResponse;
 import com.goormdari.global.payload.ResponseCustom;
-import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,11 +13,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @Tag(name = "User", description = "User API")
