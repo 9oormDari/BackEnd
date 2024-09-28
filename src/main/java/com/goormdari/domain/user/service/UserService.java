@@ -10,6 +10,7 @@ import com.goormdari.domain.user.dto.request.AddUserRequest;
 import com.goormdari.domain.user.dto.request.LoginRequest;
 import com.goormdari.domain.user.dto.response.JwtResponse;
 import com.goormdari.domain.user.domain.repository.UserRepository;
+import com.goormdari.global.config.s3.S3Service;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final S3Service s3Service;
     private final JWTUtil jwtUtil;
 
 
@@ -49,8 +51,6 @@ public class UserService {
         if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
             throw new IllegalArgumentException("Username is already exists.");
         }
-
-
 
         // 사용자 저장
         return userRepository.save(User.builder()
@@ -135,8 +135,9 @@ public class UserService {
         }
 
         // 프로필 URL 업데이트
-        if (updateUserRequest.getProfileUrl() != null && !updateUserRequest.getProfileUrl().isEmpty()) {
-            user.updateProfileUrl(updateUserRequest.getProfileUrl());
+        if (updateUserRequest.getFile() != null && !updateUserRequest.getFile().isEmpty()) {
+            String profileUrl = s3Service.uploadImageToS3(updateUserRequest.getFile());
+            user.updateProfileUrl(profileUrl);
         }
 
         // 프로필 이메일 업데이트
