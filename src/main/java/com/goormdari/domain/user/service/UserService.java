@@ -1,6 +1,15 @@
-package com.goormdari.domain.user.domain.service;
+package com.goormdari.domain.user.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+<<<<<<< HEAD:src/main/java/com/goormdari/domain/user/service/UserService.java
+import com.goormdari.domain.user.dto.response.UserInfoResponse;
+import com.goormdari.domain.user.dto.response.FindCurrentStepResponse;
+import com.goormdari.domain.user.domain.User;
+import com.goormdari.domain.user.domain.DefaultProfileUrl;
+import com.goormdari.domain.user.dto.request.AddUserRequest;
+import com.goormdari.domain.user.dto.request.LoginRequest;
+import com.goormdari.domain.user.dto.response.JwtResponse;
+=======
 import com.goormdari.domain.user.domain.exception.InvalidPasswordException;
 import com.goormdari.domain.user.domain.dto.request.UpdateUserRequest;
 import com.goormdari.domain.user.domain.dto.response.UserInfoResponse;
@@ -10,6 +19,7 @@ import com.goormdari.domain.user.domain.DefaultProfileUrl;
 import com.goormdari.domain.user.domain.dto.request.AddUserRequest;
 import com.goormdari.domain.user.domain.dto.request.LoginRequest;
 import com.goormdari.domain.user.domain.dto.response.JwtResponse;
+>>>>>>> main:src/main/java/com/goormdari/domain/user/domain/service/UserService.java
 import com.goormdari.domain.user.domain.repository.UserRepository;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 
@@ -36,11 +46,11 @@ public class UserService {
     private final JWTUtil jwtUtil;
 
     @Transactional
-    public findCurrentStepResponse findCurrentStepById(Long userId) {
+    public FindCurrentStepResponse findCurrentStepById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException("User Not Found"));
 
-        return findCurrentStepResponse.builder().currentStep(user.getCurrentStep()).build();
+        return FindCurrentStepResponse.builder().currentStep(user.getCurrentStep()).build();
     }
 
     @Transactional
