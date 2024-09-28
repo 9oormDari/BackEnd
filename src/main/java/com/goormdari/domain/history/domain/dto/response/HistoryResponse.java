@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HistoryResponse {
-    private int dDay;
+    private String dDay; // "D-20", "D+5", "D-Day"
     private String goal;
     private String[] routineList;
-    private String result;
+    private String result; // "성공", "실패", "진행 중"
 }

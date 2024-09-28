@@ -17,4 +17,11 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
                                        @Param("endDate") LocalDate endDate);
 
     List<History> findAllByUserId(Long userId);
+
+    // 상태별 히스토리 조회 (String 사용)
+    List<History> findAllByStatusLabel(String statusLabel);
+
+    // 마감일이 지난 히스토리 조회
+    @Query("SELECT h FROM History h WHERE h.user.team.deadLine < :today")
+    List<History> findAllExpiredHistories(@Param("today") LocalDate today);
 }

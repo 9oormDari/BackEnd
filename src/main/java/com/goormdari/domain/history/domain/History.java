@@ -34,32 +34,35 @@ public class History extends BaseEntity {
     @Column(name = "routine4")
     private String routine4;
 
-    @Column(name = "is_success")
-    private Boolean isSuccess;
+    private String dDayLabel;
+
+    private String statusLabel;
 
     @CreatedDate
     private LocalDateTime createAt;
-
-    private int dDayPlus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")  // user_id로 User와 연결
     private User user;
 
     @Builder
-    public History(String goal, String routine1, String routine2, String routine3, String routine4, User user, Boolean isSuccess, int dDayPlus) {
+    public History(String goal, String routine1, String routine2, String routine3, String routine4, User user, String statusLabel, String dDayLabel) {
         this.goal = goal;
         this.routine1 = routine1;
         this.routine2 = routine2;
         this.routine3 = routine3;
         this.routine4 = routine4;
         this.user = user;
-        this.isSuccess = isSuccess;
-        this.dDayPlus = dDayPlus;
+        this.statusLabel = statusLabel;
+        this.dDayLabel = dDayLabel;
     }
 
-    public void incrementDDayPlus() {
-        this.dDayPlus++;  // dDayPlus 증가
+    public void updateDDayLabel(String dDayLabel) {
+        this.dDayLabel = dDayLabel;
+    }
+
+    public void updateStatusLabel(String statusLabel) {
+        this.statusLabel = statusLabel;
     }
 
 }
