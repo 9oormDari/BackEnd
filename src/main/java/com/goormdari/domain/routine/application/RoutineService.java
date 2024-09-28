@@ -1,5 +1,6 @@
 package com.goormdari.domain.routine.application;
 
+import com.amazonaws.services.kms.model.AlreadyExistsException;
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.goormdari.domain.routine.domain.Routine;
 import com.goormdari.domain.routine.dto.request.CompleteRoutineRequest;
@@ -21,10 +22,17 @@ public class RoutineService {
 
     private final RoutineRepository routineRepository;
     private final UserRepository userRepository;
+
+    private final S3Service s3Service;
     @Transactional
     public Message completeRoutine (Long userId, CompleteRoutineRequest completeRoutineRequest, String imgURL) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException("User Not Found"));
+
+        if(routineRepository.findByRoutineIndexAndUserId(userId, completeRoutineRequest.routineIndex())!= null) {
+            throw new IllegalStateException("Routine already completed for given index");
+        }
+
         Routine routine = Routine.builder()
                 .user(user)
                 .routineImg(imgURL)
@@ -46,6 +54,7 @@ public class RoutineService {
                 .orElseThrow(()->new NotFoundException("User Not Found"));
         Routine routine = routineRepository.findByRoutineIndexAndUserId(userId,routineIndex);
         routineRepository.deleteById(routine.getId());
+        s3Service.deleteImageOnS3(routine.getRoutineImg());
         user.updateCurrentStep(user.getCurrentStep()-1);
         return Message.builder()
                 .message("루틴 삭제 성공")
