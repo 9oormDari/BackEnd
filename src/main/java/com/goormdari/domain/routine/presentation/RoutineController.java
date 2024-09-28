@@ -95,9 +95,4 @@ public class RoutineController {
         return ResponseCustom.OK(routineService.findAllRoutineByUserId(userId));
     }
 
-    @PostMapping("/temp/uploader")
-    public String uploadTempImage(@ModelAttribute MultipartFile file) {
-        String url = s3Service.uploadImageToS3(file);
-        return url;
-    }
 }
