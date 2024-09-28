@@ -32,7 +32,6 @@ public class RoutineService {
         if(routineRepository.findByRoutineIndexAndUserId(userId, completeRoutineRequest.routineIndex())!= null) {
             throw new IllegalStateException("Routine already completed for given index");
         }
-
         Routine routine = Routine.builder()
                 .user(user)
                 .routineImg(imgURL)
