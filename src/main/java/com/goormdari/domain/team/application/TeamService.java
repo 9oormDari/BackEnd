@@ -94,17 +94,15 @@ public class TeamService {
     }
 
 
-    public Message sendCode(String username, Long guestId) {
+    public Message sendCode(String username, String email) {
 
         User hostUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
-        User guestUser = userRepository.findById(guestId)
-                .orElseThrow(() -> new NotFoundException("Guest not found"));
 
         String joinCode = userRepository.findJoinCodeByUserId(hostUser.getId());
 
-        emailClient.sendOneEmail(hostUser.getNickname(), guestUser.getEmail(), joinCode);
+        emailClient.sendOneEmail(hostUser.getNickname(), email, joinCode);
 
         return Message.builder()
                 .message("이메일 전송에 성공했습니다.")
