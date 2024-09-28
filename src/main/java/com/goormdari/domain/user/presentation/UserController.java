@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @Operation(summary = "현재 유저 프로필 업데이트", description = "유저의 nickname, username, password(지난 비밀번호 검증 과정 존재) email, profileImageUrl 업데이트 기능(null 값으로 전송 시, 업데이트 X)")
-    @PostMapping
+    @PostMapping("/profile")
     public UserInfoResponse updateCurrentUserInfo(@Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
             @Valid @RequestBody UpdateUserRequest updateUserRequest) {
         if (token == null) {
