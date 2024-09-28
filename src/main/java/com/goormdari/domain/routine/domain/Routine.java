@@ -35,7 +35,6 @@ public class Routine extends BaseEntity {
     @Column(name = "routine_name")
     private String routineName;
 
-
     @Builder
     public Routine(User user, String routineImg, Long routineIndex, String routineName) {
         this.user=user;
