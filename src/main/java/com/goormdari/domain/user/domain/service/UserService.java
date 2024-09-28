@@ -62,7 +62,7 @@ public class UserService {
 
         // JWT 생성
         User user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found with: " + loginRequest.getUsername()));
-        String jwt = jwtUtil.generateToken(user.getUsername(), user.getRole());
+        String jwt = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
 
         return new JwtResponse(jwt);
     }
