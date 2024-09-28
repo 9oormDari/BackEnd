@@ -3,6 +3,7 @@ package com.goormdari.domain.team.presentation;
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
 import com.goormdari.domain.team.application.TeamService;
 import com.goormdari.domain.team.dto.request.CreateTeamRequest;
+import com.goormdari.domain.team.dto.request.RegenerateTeamRequest;
 import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
 import com.goormdari.domain.team.dto.response.findByTeamIdResponse;
@@ -49,6 +50,24 @@ public class TeamController {
         }
         String username = jwtUtil.extractUsername(jwt);
         return ResponseCustom.OK(teamService.createNewTeam(username, createTeamRequest));
+    }
+
+    @Operation(summary = "목표 재생성", description = "목표 기한 만료 후 목표를 재생성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "목표 재생성 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Message.class))}),
+            @ApiResponse(responseCode = "400", description = "목표 재생성 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @PostMapping("/regenerate")
+    public ResponseCustom<Message> createTeam(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
+            @Parameter(description = "Schemas의 CreateTeamRequest를 참고해주세요.", required = true) @Valid @RequestBody RegenerateTeamRequest regenerateTeamRequest
+    ) {
+        String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
+        if (!jwtUtil.validateToken(jwt)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        String username = jwtUtil.extractUsername(jwt);
+        return ResponseCustom.OK(teamService.regenerateNewTeam(username, regenerateTeamRequest));
     }
 
     @Operation(summary = "팀(방) 참여코드 전달", description = "팀(방) 참여코드를 이메일로 전달합니다.")
