@@ -1,6 +1,7 @@
 package com.goormdari.domain.user.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.goormdari.domain.user.domain.exception.DuplicateUsernameException;
 import com.goormdari.domain.user.domain.exception.InvalidPasswordException;
 import com.goormdari.domain.user.dto.response.UserInfoResponse;
 import com.goormdari.domain.user.dto.response.FindCurrentStepResponse;
@@ -120,7 +121,7 @@ public class UserService {
         if (updateUserRequest.getUsername() != null && !updateUserRequest.getUsername().isEmpty()) {
             if (userRepository.findByUsername(updateUserRequest.getUsername()).isPresent() &&
                     !user.getUsername().equals(updateUserRequest.getUsername())) {
-                throw new IllegalArgumentException("Username is already exists.");
+                throw new DuplicateUsernameException("Username is already exists.");
             }
             user.updateUsername(updateUserRequest.getUsername());
         }
