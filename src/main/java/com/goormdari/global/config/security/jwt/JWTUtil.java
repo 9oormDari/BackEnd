@@ -33,9 +33,10 @@ public class JWTUtil {
      @Param username 사용자 이름
      @return 생성된 JWT 토큰
      */
-    public String generateToken(String username, String role) {
+    public String generateToken(Long id, String username, String role) {
 
         return Jwts.builder()
+                .claim("id", id)
                 .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -46,6 +47,10 @@ public class JWTUtil {
 
     public String extractUsername(String token) {
         return extractClaim(token, claims -> claims.get("username", String.class));
+    }
+
+    public Long extractId(String token) {
+        return extractClaim(token, claims -> claims.get("id", Long.class));
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

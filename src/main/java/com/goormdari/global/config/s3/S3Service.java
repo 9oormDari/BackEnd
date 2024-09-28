@@ -1,6 +1,7 @@
 package com.goormdari.global.config.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
@@ -21,7 +22,7 @@ public class S3Service {
 
     private String changedImageName(String originName) { //이미지 이름 중복 방지를 위해 랜덤으로 생성
         String random = UUID.randomUUID().toString();
-        return random + originName;
+        return random +'-' + originName;
     }
 
     public String uploadImageToS3(MultipartFile image) { //이미지를 S3에 업로드하고 이미지의 url을 반환
@@ -39,5 +40,12 @@ public class S3Service {
             throw new RuntimeException("ImageUploadException"); //커스텀 예외 던짐.
         }
         return amazonS3.getUrl(bucket, changedName).toString(); //데이터베이스에 저장할 이미지가 저장된 주소
+    }
+
+    //삭제는 일단 보류
+    public void deleteImageOnS3(String imgURL) {
+        String fileName = imgURL.substring(imgURL.lastIndexOf("-"));;
+
+        amazonS3.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
 }
