@@ -9,6 +9,7 @@ import com.goormdari.domain.user.dto.request.AddUserRequest;
 import com.goormdari.domain.user.dto.request.LoginRequest;
 import com.goormdari.domain.user.dto.response.JwtResponse;
 import com.goormdari.domain.user.domain.repository.UserRepository;
+import com.goormdari.domain.validation.annotation.ExistUser;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,12 @@ public class UserService {
 
 
     @Transactional
-    public FindCurrentStepResponse findCurrentStepById(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(()->new NotFoundException("User Not Found"));
+    public FindCurrentStepResponse findCurrentStepById(@ExistUser final Long userId) {
+//        User user = userRepository.findById(userId).get();
 
-        return FindCurrentStepResponse.builder().currentStep(user.getCurrentStep()).build();
+        int count = userRepository.countUserWithRoutines(userId);
+
+        return FindCurrentStepResponse.builder().currentStep(count).build();
     }
 
     @Transactional
