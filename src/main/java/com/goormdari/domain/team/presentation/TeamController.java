@@ -56,17 +56,17 @@ public class TeamController {
             @ApiResponse(responseCode = "200", description = "팀(방) 참여코드 전달 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "400", description = "팀(방) 참여코드 전달 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
-    @PostMapping("/email/{guestId}")
+    @PostMapping("/email/{email}")
     public ResponseCustom<Message> sendJoinCode(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
-            @Parameter(description = "초대할 유저의 id를 입력해주세요.", required = true) @PathVariable Long guestId
+            @Parameter(description = "초대할 유저의 id를 입력해주세요.", required = true) @PathVariable String email
     ) {
         String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
         if (!jwtUtil.validateToken(jwt)) {
             throw new IllegalArgumentException("Invalid token");
         }
         String username = jwtUtil.extractUsername(jwt);
-        return ResponseCustom.OK(teamService.sendCode(username, guestId));
+        return ResponseCustom.OK(teamService.sendCode(username, email));
     }
 
     @Operation(summary = "참여코드로 팀(방) 참여", description = "참여코드로 팀(방)에 참여합니다.")
