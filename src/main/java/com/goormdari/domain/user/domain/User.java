@@ -35,11 +35,6 @@ public class User extends BaseEntity {
 
     private String profileUrl;
 
-    private String routinImg1;
-    private String routinImg2;
-    private String routinImg3;
-    private String routinImg4;
-
     private String role;
   
     private String goal;
@@ -59,6 +54,10 @@ public class User extends BaseEntity {
 
     public void updateDeadLine(LocalDate deadLine) {
         this.deadLine = deadLine;
+    }
+
+    public void updateCurrentStep(int currentStep) {
+        this.currentStep = currentStep;
     }
 
     @Builder

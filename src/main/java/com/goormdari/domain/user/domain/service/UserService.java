@@ -1,5 +1,7 @@
 package com.goormdari.domain.user.domain.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
+import com.goormdari.domain.user.dto.response.findCurrentStepResponse;
 import com.goormdari.domain.user.domain.User;
 import com.goormdari.domain.user.domain.dto.AddUserRequest;
 import com.goormdari.domain.user.domain.dto.JwtResponse;
@@ -27,6 +29,13 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
 
+    @Transactional
+    public findCurrentStepResponse findCurrentStepById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new NotFoundException("User Not Found"));
+
+        return findCurrentStepResponse.builder().currentStep(user.getCurrentStep()).build();
+    }
     @Transactional
     public Long save(AddUserRequest dto) {
         // 사용자 이름 중복 체크
