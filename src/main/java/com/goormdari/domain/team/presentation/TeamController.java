@@ -108,7 +108,7 @@ public class TeamController {
 
     @Operation(summary = "루틴 목록 조회", description = "teamId로 설정된 루틴 목록 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "루틴 목록 조회 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CreateTeamResponse.class))}),
+            @ApiResponse(responseCode = "200", description = "루틴 목록 조회 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseCustom.class))}),
             @ApiResponse(responseCode = "400", description = "루틴 목록 조회 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @GetMapping("/routine-list")
