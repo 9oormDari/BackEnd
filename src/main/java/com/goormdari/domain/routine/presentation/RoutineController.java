@@ -38,7 +38,7 @@ public class RoutineController {
 
     @Operation(summary = "루틴 완수", description = "사진을 업로드하여 루틴을 완수합니다")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "루틴 완수 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation =  Message.class))}),
+            @ApiResponse(responseCode = "200", description = "루틴 완수 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "400", description = "루틴 완수 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @PostMapping("/upload")
@@ -56,12 +56,12 @@ public class RoutineController {
         }
         Long userId = jwtUtil.extractId(jwt);
         String imgURL = s3Service.uploadImageToS3(completeRoutineRequest.file());
-        return ResponseCustom.OK(routineService.completeRoutine(userId, completeRoutineRequest,imgURL));
+        return ResponseCustom.OK(routineService.completeRoutine(userId, completeRoutineRequest, imgURL));
     }
 
     @Operation(summary = "루틴 삭제", description = "이미지 url, routineIndex로 삭제")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "루틴 완수 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation =  ResponseCustom.class))}),
+            @ApiResponse(responseCode = "200", description = "루틴 완수 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseCustom.class))}),
             @ApiResponse(responseCode = "400", description = "루틴 완수 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @DeleteMapping("/upload")
@@ -80,20 +80,19 @@ public class RoutineController {
         }
         Long userId = jwtUtil.extractId(jwt);
         s3Service.deleteImageOnS3(imgURL);
-        return ResponseCustom.OK(routineService.deleteRoutineByUserIdAndRoutineIndex(userId,routineIndex));
+        return ResponseCustom.OK(routineService.deleteRoutineByUserIdAndRoutineIndex(userId, routineIndex));
     }
 
     @Operation(summary = "유저별 루틴 전체 조회", description = "userId로 해당 유저 루틴 전체 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "루틴 완수 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation =  ResponseCustom.class))}),
+            @ApiResponse(responseCode = "200", description = "루틴 완수 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseCustom.class))}),
             @ApiResponse(responseCode = "400", description = "루틴 완수 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @GetMapping("/{userId}")
-    public  ResponseCustom<List<Routine>> getAllRoutineByUserId(
+    public ResponseCustom<List<Routine>> getAllRoutineByUserId(
             @Parameter(description = "조회 할 userId", required = true) @PathVariable("userId") Long userId
     ) {
         return ResponseCustom.OK(routineService.findAllRoutineByUserId(userId));
     }
-
 
 }
