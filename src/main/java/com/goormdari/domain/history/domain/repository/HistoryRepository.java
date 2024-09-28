@@ -1,13 +1,12 @@
 package com.goormdari.domain.history.domain.repository;
 
 import com.goormdari.domain.history.domain.History;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface HistoryRepository extends JpaRepository<History, Long> {
 
@@ -17,5 +16,5 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
                                        @Param("startDate") LocalDate startDate,
                                        @Param("endDate") LocalDate endDate);
 
-    Slice<History> findAllByUserId(Long userId, Pageable pageable);
+    List<History> findAllByUserId(Long userId);
 }

@@ -1,6 +1,7 @@
 package com.goormdari.domain.history.application;
 
 import com.goormdari.domain.history.domain.History;
+import com.goormdari.domain.history.domain.dto.response.HistoryResponse;
 import com.goormdari.domain.history.domain.repository.HistoryRepository;
 import com.goormdari.domain.history.exception.ResourceNotFoundException;
 import com.goormdari.domain.routine.domain.Routine;
@@ -9,16 +10,14 @@ import com.goormdari.domain.team.domain.Team;
 import com.goormdari.domain.team.domain.repository.TeamRepository;
 import com.goormdari.domain.user.domain.User;
 import com.goormdari.domain.user.domain.repository.UserRepository;
-import com.goormdari.global.config.security.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -129,7 +128,21 @@ public class HistoryService {
     }
 
     // 특정 유저의 히스토리 페이징 처리
-    public Slice<History> getPagedHistoriesByUser(Long userId, Pageable pageable) {
-        return historyRepository.findAllByUserId(userId, pageable);
+    public List<HistoryResponse> getAllHistoriesByUser(Long userId) {
+        List<History> histories = historyRepository.findAllByUserId(userId);
+
+        return histories.stream().map(history -> {
+            String[] routines = {
+                    history.getRoutine1(),
+                    history.getRoutine2(),
+                    history.getRoutine3(),
+                    history.getRoutine4()
+            };
+
+            int dDay = history.getDDayPlus();
+            String result = history.getIsSuccess() ? "성공" : "실패";
+
+            return new HistoryResponse(dDay, history.getGoal(), routines, result);
+        }).collect(Collectors.toList());
     }
 }
