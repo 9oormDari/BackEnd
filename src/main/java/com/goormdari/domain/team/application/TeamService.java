@@ -8,7 +8,7 @@ import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
 import com.goormdari.domain.team.exception.TeamAlreadyExistException;
 import com.goormdari.domain.user.domain.User;
-import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
+import com.goormdari.domain.team.dto.response.findByTeamIdResponse;
 import com.goormdari.domain.user.domain.repository.UserRepository;
 import com.goormdari.global.config.email.EmailClient;
 import com.goormdari.global.payload.Message;

@@ -1,4 +1,4 @@
-package com.goormdari.domain.user.domain.dto.response;
+package com.goormdari.domain.team.dto.response;
 
 import lombok.Builder;
 
