@@ -3,6 +3,7 @@ package com.goormdari.domain.user.domain.service;
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.goormdari.domain.team.domain.Team;
 import com.goormdari.domain.team.domain.repository.TeamRepository;
+import com.goormdari.domain.user.domain.DefaultProfileUrl;
 import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
 import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
 import com.goormdari.domain.user.domain.User;
@@ -51,12 +52,15 @@ public class UserService {
             throw new IllegalArgumentException("Username is already exists.");
         }
 
+
+
         // 사용자 저장
         return userRepository.save(User.builder()
                 .nickname(dto.getNickname())
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .role("ROLE_USER")
+                .profileUrl(DefaultProfileUrl.getRandomProfileUrl())
                 .build()).getId();
     }
 
