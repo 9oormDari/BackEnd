@@ -46,6 +46,7 @@ public class RoutineService {
                 .orElseThrow(()->new NotFoundException("User Not Found"));
         Routine routine = routineRepository.findByRoutineIndexAndUserId(userId,routineIndex);
         routineRepository.deleteById(routine.getId());
+        user.updateCurrentStep(user.getCurrentStep()-1);
         return Message.builder()
                 .message("루틴 삭제 성공")
                 .build();
