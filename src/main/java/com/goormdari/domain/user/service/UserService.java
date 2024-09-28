@@ -1,6 +1,7 @@
 package com.goormdari.domain.user.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.goormdari.domain.user.domain.exception.InvalidPasswordException;
 import com.goormdari.domain.user.dto.response.UserInfoResponse;
 import com.goormdari.domain.user.dto.response.FindCurrentStepResponse;
 import com.goormdari.domain.user.domain.User;
@@ -102,5 +103,51 @@ public class UserService {
                 .teamId(user.getTeam() != null ? user.getTeam().getId() : null)
                 .build();
 
+    }
+
+    public boolean verifyCurrentPassword(User user, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, user.getPassword());
+    }
+
+    @Transactional
+    public UserInfoResponse updateUserProfile(Long userId, com.goormdari.domain.user.dto.request.UpdateUserRequest updateUserRequest) {
+        User user = userRepository.findById(userId).orElseThrow(()->new NotFoundException("User Not Found: " + userId));
+
+        // 닉네임 업데이트
+        if (updateUserRequest.getNickname() != null && !updateUserRequest.getNickname().isEmpty()) {
+            user.updateNickname(updateUserRequest.getNickname());
+        }
+
+        // 유저네임 업데이트 (중복 체크 필요)
+        if (updateUserRequest.getUsername() != null && !updateUserRequest.getUsername().isEmpty()) {
+            if (userRepository.findByUsername(updateUserRequest.getUsername()).isPresent() &&
+                    !user.getUsername().equals(updateUserRequest.getUsername())) {
+                throw new IllegalArgumentException("Username is already exists.");
+            }
+            user.updateUsername(updateUserRequest.getUsername());
+        }
+
+        // 비밀번호 업데이트 (인코딩 필요)
+        if (updateUserRequest.getPassword() != null && !updateUserRequest.getPassword().isEmpty()) {
+            // 현재 비밀번호 검증
+            if (updateUserRequest.getCurrentPassword() == null || !verifyCurrentPassword(user, updateUserRequest.getCurrentPassword())) {
+                throw new InvalidPasswordException("Current password is incorrect.");
+            }
+            user.updatePassword(passwordEncoder.encode(updateUserRequest.getPassword()));
+        }
+
+        // 프로필 URL 업데이트
+        if (updateUserRequest.getProfileUrl() != null && !updateUserRequest.getProfileUrl().isEmpty()) {
+            user.updateProfileUrl(updateUserRequest.getProfileUrl());
+        }
+
+        // 프로필 이메일 업데이트
+        if (updateUserRequest.getEmail() != null && !updateUserRequest.getEmail().isEmpty()) {
+            user.updateEmail(updateUserRequest.getEmail());
+        }
+
+        userRepository.save(user);
+
+        return getUserInfo(userId);
     }
 }

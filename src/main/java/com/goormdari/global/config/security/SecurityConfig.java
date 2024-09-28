@@ -3,6 +3,7 @@ package com.goormdari.global.config.security;
 import com.goormdari.global.config.security.jwt.JWTFilter;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
+@EnableAutoConfiguration
 public class SecurityConfig {
 
     private final JWTUtil jwtUtil;

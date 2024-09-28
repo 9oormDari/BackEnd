@@ -39,7 +39,7 @@ public class History extends BaseEntity {
     private String statusLabel;
 
     @CreatedDate
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")  // user_id로 User와 연결
