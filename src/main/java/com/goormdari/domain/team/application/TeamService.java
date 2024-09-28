@@ -39,6 +39,7 @@ public class TeamService {
         String joinCode = UUID.randomUUID().toString();
 
         Team team = Team.builder()
+                .name(createTeamRequest.teamName())
                 .goal(createTeamRequest.goal())
                 .deadLine(createTeamRequest.deadline())
                 .routine1(createTeamRequest.routine1())

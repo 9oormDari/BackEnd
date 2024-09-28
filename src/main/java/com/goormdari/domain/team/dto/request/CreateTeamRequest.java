@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 @Builder
 public record CreateTeamRequest(
+        String teamName,
         String goal,
         LocalDate deadline,
         String routine1,

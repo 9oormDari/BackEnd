@@ -18,6 +18,8 @@ public class Team extends BaseEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    private String name;
+
     private String goal;
 
     private LocalDate deadLine;
@@ -31,7 +33,8 @@ public class Team extends BaseEntity {
 
 
     @Builder
-    public Team(String goal, LocalDate deadLine, String routine1, String routine2, String routine3, String routine4, String joinCode) {
+    public Team(String name, String goal, LocalDate deadLine, String routine1, String routine2, String routine3, String routine4, String joinCode) {
+        this.name = name;
         this.goal = goal;
         this.deadLine = deadLine;
         this.routine1 = routine1;
