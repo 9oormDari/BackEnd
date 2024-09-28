@@ -4,6 +4,7 @@ import com.goormdari.domain.calendar.domain.repository.CalendarRepository;
 import com.goormdari.domain.calendar.dto.response.CheckGoalProgressResponse;
 import com.goormdari.domain.user.domain.User;
 import com.goormdari.domain.user.domain.repository.UserRepository;
+import com.goormdari.domain.validation.annotation.ExistUser;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,8 @@ public class CalendarService {
     private final UserRepository userRepository;
 
 
-    public CheckGoalProgressResponse searchCheckGoalProgress(String username, YearMonth date) {
-        System.out.println("username = " + username);
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+    public CheckGoalProgressResponse searchCheckGoalProgress(@ExistUser final String username, final YearMonth date) {
+        User user = userRepository.findByUsername(username).get();
 
         CheckGoalProgressResponse checkGoalProgressResponse = calendarRepository.findByIdAndDate(user.getId(), date);
 
