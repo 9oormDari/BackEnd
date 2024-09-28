@@ -5,7 +5,7 @@ import com.goormdari.domain.team.application.TeamService;
 import com.goormdari.domain.team.dto.request.CreateTeamRequest;
 import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
-import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
+import com.goormdari.domain.team.dto.response.findByTeamIdResponse;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import com.goormdari.global.payload.ErrorResponse;
 import com.goormdari.global.payload.Message;
