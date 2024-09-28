@@ -1,10 +1,13 @@
 package com.goormdari.domain.team.domain;
 
 import com.goormdari.domain.common.BaseEntity;
+import com.goormdari.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -31,6 +34,8 @@ public class Team extends BaseEntity {
 
     private String joinCode;
 
+    @OneToMany(mappedBy = "team")
+    private List<User> users = new ArrayList<User>();
 
     @Builder
     public Team(String name, String goal, LocalDate deadLine, String routine1, String routine2, String routine3, String routine4, String joinCode) {

@@ -1,6 +1,8 @@
 package com.goormdari.domain.user.domain.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.goormdari.domain.team.domain.Team;
+import com.goormdari.domain.team.domain.repository.TeamRepository;
 import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
 import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
 import com.goormdari.domain.user.domain.User;
@@ -21,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,6 +34,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final TeamRepository teamRepository;
     private final JWTUtil jwtUtil;
 
     @Transactional
@@ -53,7 +57,6 @@ public class UserService {
                         .build())
                 .collect(Collectors.toList());
     }
-
     @Transactional
     public Long save(AddUserRequest dto) {
         // 사용자 이름 중복 체크
