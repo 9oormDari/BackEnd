@@ -4,6 +4,7 @@ import com.amazonaws.services.kms.model.NotFoundException;
 import com.goormdari.domain.team.domain.Team;
 import com.goormdari.domain.team.domain.repository.TeamRepository;
 import com.goormdari.domain.team.dto.request.CreateTeamRequest;
+import com.goormdari.domain.team.dto.request.RegenerateTeamRequest;
 import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
 import com.goormdari.domain.team.exception.TeamAlreadyExistException;
@@ -12,6 +13,7 @@ import com.goormdari.domain.team.dto.response.findByTeamIdResponse;
 import com.goormdari.domain.user.domain.repository.UserRepository;
 import com.goormdari.global.config.email.EmailClient;
 import com.goormdari.global.payload.Message;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,7 +105,7 @@ public class TeamService {
 
         String joinCode = userRepository.findJoinCodeByUserId(hostUser.getId());
 
-        emailClient.sendOneEmail(hostUser.getNickname(), email, joinCode);
+        emailClient.sendOneEmail(hostUser.getNickname(), email, joinCode, hostUser.getTeam().getName());
 
         return Message.builder()
                 .message("이메일 전송에 성공했습니다.")
@@ -125,6 +127,21 @@ public class TeamService {
         return Message
                 .builder()
                 .message("팀(방)에 참여했습니다.")
+                .build();
+    }
+
+    @Transactional
+    public Message regenerateNewTeam(String username, RegenerateTeamRequest regenerateTeamRequest) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+
+        user.getTeam().updateForRegenerateObject(regenerateTeamRequest.goal(), regenerateTeamRequest.deadline(), regenerateTeamRequest.routine1(), regenerateTeamRequest.routine2(), regenerateTeamRequest.routine3(), regenerateTeamRequest.routine4());
+
+
+        return Message
+                .builder()
+                .message("목표를 재생성 했습니다.")
                 .build();
     }
 }

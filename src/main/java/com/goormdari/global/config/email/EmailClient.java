@@ -17,13 +17,15 @@ public class EmailClient {
     private final JavaMailSender javaMailSender;
     private final JavaMailSenderImpl mailSender;
 
-    public void sendOneEmail(String from, String to, String joinCode) {
+    public void sendOneEmail(String from, String to, String joinCode, String teamName) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
 
             // 수신자, 제목, 본문 설정
-            String subject = "[구름다리] 팀 초대 코드 안내";
-            String body = from + "님의 초대입니다.\n" + "https://9oormdari.vercel.app/" + " 구름다리 서비스 초대 코드: " + joinCode;
+            String subject = from + "님이 나를 구름다리에 초대했습니다.";
+            String body = from + "님이 나를 " + teamName + "팀에 초대했습니다." +
+                    "<br> 아래 링크를 통해 초대를 수락주세요." +
+                    "<br> 구름다리 서비스 초대코드: " + joinCode;
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject(subject);

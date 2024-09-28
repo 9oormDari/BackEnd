@@ -1,12 +1,11 @@
 package com.goormdari.domain.routine.presentation;
 
 
-import com.goormdari.domain.calendar.dto.response.CheckGoalProgressResponse;
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
 import com.goormdari.domain.routine.application.RoutineService;
 import com.goormdari.domain.routine.domain.Routine;
 import com.goormdari.domain.routine.dto.request.CompleteRoutineRequest;
-import com.goormdari.domain.user.domain.service.UserService;
+import com.goormdari.domain.user.service.UserService;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import com.goormdari.global.config.s3.S3Service;
 import com.goormdari.global.payload.ErrorResponse;
@@ -22,7 +21,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -69,7 +67,6 @@ public class RoutineController {
     @DeleteMapping("/upload")
     public ResponseCustom<Message> deleteRoutine(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
-            @Parameter(description = "이미지 url", required = true) @Valid @RequestParam("imgURL") String imgURL,
             @Parameter(description = "루틴 Index", required = true) @Valid @RequestParam("routineIndex") Long routineIndex
     ) {
         if (token == null) {
@@ -81,7 +78,6 @@ public class RoutineController {
             throw new IllegalArgumentException("Invalid token");
         }
         Long userId = jwtUtil.extractId(jwt);
-        s3Service.deleteImageOnS3(imgURL);
         return ResponseCustom.OK(routineService.deleteRoutineByUserIdAndRoutineIndex(userId, routineIndex));
     }
 
