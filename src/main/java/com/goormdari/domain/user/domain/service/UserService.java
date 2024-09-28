@@ -1,16 +1,17 @@
 package com.goormdari.domain.user.domain.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
-import com.goormdari.domain.team.domain.repository.TeamRepository;
+import com.goormdari.domain.user.domain.dto.response.UserInfoResponse;
+import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
+import com.goormdari.domain.user.domain.User;
 import com.goormdari.domain.user.domain.DefaultProfileUrl;
 import com.goormdari.domain.user.domain.dto.request.AddUserRequest;
 import com.goormdari.domain.user.domain.dto.request.LoginRequest;
 import com.goormdari.domain.user.domain.dto.response.JwtResponse;
 import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
-import com.goormdari.domain.user.domain.User;
 import com.goormdari.domain.user.domain.repository.UserRepository;
 import com.goormdari.global.config.security.jwt.JWTUtil;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Slf4j
@@ -30,7 +32,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final TeamRepository teamRepository;
     private final JWTUtil jwtUtil;
 
     @Transactional
@@ -40,6 +41,7 @@ public class UserService {
 
         return findCurrentStepResponse.builder().currentStep(user.getCurrentStep()).build();
     }
+
     @Transactional
     public Long save(AddUserRequest dto) {
         // 사용자 이름 중복 체크
@@ -81,5 +83,22 @@ public class UserService {
         String jwt = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
 
         return new JwtResponse(jwt);
+    }
+
+    @Transactional(readOnly = true)
+    public UserInfoResponse getUserInfo(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new NotFoundException("User Not Found: " + userId));
+
+        return UserInfoResponse.builder()
+                .nickname(user.getNickname())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .profileUrl(user.getProfileUrl())
+                .goal(user.getGoal())
+                .deadline(user.getDeadLine())
+                .teamId(user.getTeam() != null ? user.getTeam().getId() : null)
+                .build();
+
     }
 }

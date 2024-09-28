@@ -1,6 +1,7 @@
 package com.goormdari.domain.user.presentation;
 
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
+import com.goormdari.domain.user.domain.dto.response.UserInfoResponse;
 import com.goormdari.domain.user.domain.service.UserService;
 import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
 import com.goormdari.global.config.security.jwt.JWTUtil;
@@ -45,6 +46,22 @@ public class UserController {
         }
         Long userId = jwtUtil.extractId(jwt);
         return ResponseCustom.OK(userService.findCurrentStepById(userId));
+    }
+
+    @Operation(summary = "현재 유저 정보 조회", description = "유저의 현재 데이터(nickname, username, email, profileImageUrl, goal, deadline, teamId) 조회")
+    @GetMapping("/info")
+    public UserInfoResponse getCurrentUserInfo(@Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token) {
+        if (token == null) {
+            throw new InvalidTokenException();
+        }
+
+        String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
+        if (!jwtUtil.validateToken(jwt)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        Long userId = jwtUtil.extractId(jwt);
+
+        return userService.getUserInfo(userId);
     }
 
 }
