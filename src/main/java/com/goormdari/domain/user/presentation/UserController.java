@@ -1,6 +1,7 @@
 package com.goormdari.domain.user.presentation;
 
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
+import com.goormdari.domain.user.dto.request.UpdateUserRequest;
 import com.goormdari.domain.user.dto.response.UserInfoResponse;
 import com.goormdari.domain.user.service.UserService;
 import com.goormdari.domain.user.dto.response.FindCurrentStepResponse;
@@ -62,6 +63,23 @@ public class UserController {
         Long userId = jwtUtil.extractId(jwt);
 
         return userService.getUserInfo(userId);
+    }
+  
+    @Operation(summary = "현재 유저 프로필 업데이트", description = "유저의 nickname, username, password(지난 비밀번호 검증 과정 존재) email, profileImage 업로드 기능(null 값으로 전송 시, 업데이트 X)")
+    @PostMapping("/profile")
+    public UserInfoResponse updateCurrentUserInfo(@Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
+                                                  @RequestBody UpdateUserRequest updateUserRequest) {
+        if (token == null) {
+            throw new InvalidTokenException();
+        }
+
+        String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
+        if (!jwtUtil.validateToken(jwt)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        Long userId = jwtUtil.extractId(jwt);
+
+        return userService.updateUserProfile(userId, updateUserRequest);
     }
 
 }
