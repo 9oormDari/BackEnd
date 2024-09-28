@@ -5,7 +5,6 @@ import com.goormdari.domain.user.domain.service.UserService;
 import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import com.goormdari.global.payload.ErrorResponse;
-import com.goormdari.global.payload.Message;
 import com.goormdari.global.payload.ResponseCustom;
 import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -71,6 +69,6 @@ public class UserController {
             throw new IllegalArgumentException("Invalid token");
         }
         Long userId = jwtUtil.extractId(jwt);
-        return ResponseCustom.OK(userService.findTeamByUserId(1L));
+        return ResponseCustom.OK(userService.findTeamByUserId(userId));
     }
 }
