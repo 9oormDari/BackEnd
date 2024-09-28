@@ -63,4 +63,22 @@ public class TeamController {
         String username = jwtUtil.extractUsername(jwt);
         return ResponseCustom.OK(teamService.sendCode(username, guestId));
     }
+
+    @Operation(summary = "참여코드로 팀(방) 참여", description = "참여코드로 팀(방)에 참여합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "팀(방) 참여 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Message.class))}),
+            @ApiResponse(responseCode = "400", description = "팀(방) 참여 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @PostMapping("/join/{joinCode}")
+    public ResponseCustom<Message> joinTeam(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
+            @Parameter(description = "참여코드를 입력해주세요.", required = true) @PathVariable String joinCode
+    ) {
+        String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
+        if (!jwtUtil.validateToken(jwt)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        String username = jwtUtil.extractUsername(jwt);
+        return ResponseCustom.OK(teamService.join(username, joinCode));
+    }
 }
