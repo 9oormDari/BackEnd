@@ -49,6 +49,18 @@ public class UserController {
         return ResponseCustom.OK(userService.findCurrentStepById(userId));
     }
 
+    @Operation(summary = "유저 id로 현재 루틴 수 조회", description = "입력한 유저id 사용자가 완수한 루틴의 개수")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공 ", content = {@Content(mediaType = "application/json", schema = @Schema(implementation =  FindCurrentStepResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "조회 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @GetMapping("/current-step/{userId}")
+    public ResponseCustom<FindCurrentStepResponse> getCurrentStepByUserId(
+            @Parameter(description = "userId를 입력해주세요.", required = true) @PathVariable Long userId
+    ) {
+        return ResponseCustom.OK(userService.findCurrentStepById(userId));
+    }
+
     @Operation(summary = "현재 유저 정보 조회", description = "유저의 현재 데이터(nickname, username, email, profileImageUrl, goal, deadline, teamId) 조회")
     @GetMapping("/info")
     public UserInfoResponse getCurrentUserInfo(@Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token) {
