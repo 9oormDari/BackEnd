@@ -83,8 +83,8 @@ public class RoutineController {
 
     @Operation(summary = "유저별 루틴 전체 조회", description = "userId로 해당 유저 루틴 전체 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "루틴 완수 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseCustom.class))}),
-            @ApiResponse(responseCode = "400", description = "루틴 완수 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "200", description = "루틴 조회 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseCustom.class))}),
+            @ApiResponse(responseCode = "400", description = "루틴 조회 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @GetMapping("/{userId}")
     public ResponseCustom<List<Routine>> getAllRoutineByUserId(
