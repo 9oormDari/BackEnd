@@ -1,16 +1,9 @@
 package com.goormdari.domain.user.presentation;
 
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
-<<<<<<< HEAD
 import com.goormdari.domain.user.dto.response.UserInfoResponse;
 import com.goormdari.domain.user.service.UserService;
 import com.goormdari.domain.user.dto.response.FindCurrentStepResponse;
-=======
-import com.goormdari.domain.user.domain.dto.request.UpdateUserRequest;
-import com.goormdari.domain.user.domain.dto.response.UserInfoResponse;
-import com.goormdari.domain.user.domain.service.UserService;
-import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
->>>>>>> main
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import com.goormdari.global.payload.ErrorResponse;
 import com.goormdari.global.payload.ResponseCustom;
@@ -21,7 +14,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,23 +62,6 @@ public class UserController {
         Long userId = jwtUtil.extractId(jwt);
 
         return userService.getUserInfo(userId);
-    }
-
-    @Operation(summary = "현재 유저 프로필 업데이트", description = "유저의 nickname, username, password(지난 비밀번호 검증 과정 존재) email, profileImageUrl 업데이트 기능(null 값으로 전송 시, 업데이트 X)")
-    @PostMapping
-    public UserInfoResponse updateCurrentUserInfo(@Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
-            @Valid @RequestBody UpdateUserRequest updateUserRequest) {
-        if (token == null) {
-            throw new InvalidTokenException();
-        }
-
-        String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
-        if (!jwtUtil.validateToken(jwt)) {
-            throw new IllegalArgumentException("Invalid token");
-        }
-        Long userId = jwtUtil.extractId(jwt);
-
-        return userService.updateUserProfile(userId, updateUserRequest);
     }
 
 }
