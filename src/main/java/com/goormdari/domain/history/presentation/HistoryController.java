@@ -20,7 +20,7 @@ public class HistoryController {
     private final HistoryService historyService;
     private final JWTUtil jwtUtil;
 
-    @Operation(summary = "루틴 완수 기록 화면 조회", description = "루틴 완수 기록을 pageable 형태로 반홥합니다.")
+    @Operation(summary = "루틴 완수 기록 화면 조회", description = "루틴 완수 기록을 list 형태로 반홥합니다.")
     @GetMapping
     public ResponseEntity<List<HistoryResponse>> getHistoriesByUser(@Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token) {
         if (token == null) {
