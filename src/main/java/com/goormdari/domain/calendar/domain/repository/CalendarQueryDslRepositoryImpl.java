@@ -42,6 +42,7 @@ public class CalendarQueryDslRepositoryImpl implements CalendarQueryDslRepositor
             throw new EntityNotFoundException("User not found");
         }
 
+
         List<Calendar> calendarList = queryFactory
                 .selectFrom(calendar)
                 .where(
@@ -49,12 +50,14 @@ public class CalendarQueryDslRepositoryImpl implements CalendarQueryDslRepositor
                         calendar.date.between(startDate, endDate)
                 )
                 .fetch();
-        
+
 
 
         String goal = userInfo.getGoal();
 
+
         int dDay = calculateDDay(userInfo.getDeadLine());
+
 
         List<CheckGoalProgressResponse.DayAchive> dayAchiveList = calendarList.stream()
                 .map(entry -> new CheckGoalProgressResponse.DayAchive(
@@ -63,15 +66,16 @@ public class CalendarQueryDslRepositoryImpl implements CalendarQueryDslRepositor
                 ))
                 .collect(Collectors.toList());
 
-        Double routineCompletionRate = calculateRoutineCompletionRate(userId, date);
+
+//        Double routineCompletionRate = calculateRoutineCompletionRate(userId, date);
+
 
         return new CheckGoalProgressResponse(
                 userInfo.getNickname(),
                 userInfo.getProfileUrl(),
                 goal,
                 dDay,
-                dayAchiveList,
-                routineCompletionRate
+                dayAchiveList
         );
     }
 
