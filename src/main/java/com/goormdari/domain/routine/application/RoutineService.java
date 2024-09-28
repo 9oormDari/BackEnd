@@ -21,6 +21,7 @@ public class RoutineService {
 
     private final RoutineRepository routineRepository;
     private final UserRepository userRepository;
+
     @Transactional
     public Message completeRoutine (Long userId, CompleteRoutineRequest completeRoutineRequest, String imgURL) {
         User user = userRepository.findById(userId)
