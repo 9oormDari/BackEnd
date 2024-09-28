@@ -1,12 +1,12 @@
 package com.goormdari.domain.history.domain;
 
 import com.goormdari.domain.common.BaseEntity;
-import com.goormdari.domain.team.domain.Team;
+import com.goormdari.domain.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -37,8 +37,29 @@ public class History extends BaseEntity {
     @Column(name = "is_success")
     private Boolean isSuccess;
 
+    @CreatedDate
+    private LocalDateTime createAt;
+
+    private int dDayPlus;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @JoinColumn(name = "user_id")  // user_id로 User와 연결
+    private User user;
+
+    @Builder
+    public History(String goal, String routine1, String routine2, String routine3, String routine4, User user, Boolean isSuccess, int dDayPlus) {
+        this.goal = goal;
+        this.routine1 = routine1;
+        this.routine2 = routine2;
+        this.routine3 = routine3;
+        this.routine4 = routine4;
+        this.user = user;
+        this.isSuccess = isSuccess;
+        this.dDayPlus = dDayPlus;
+    }
+
+    public void incrementDDayPlus() {
+        this.dDayPlus++;  // dDayPlus 증가
+    }
 
 }

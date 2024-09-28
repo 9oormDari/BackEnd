@@ -1,19 +1,17 @@
-package com.goormdari.domain.user.domain.dto;
+package com.goormdari.domain.user.domain.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class AddUserRequest {
+    @NotBlank(message = "Nickname cannot be blank")
+    private String nickname;
     @NotBlank(message = "Username cannot be blank")
     private String username;
-
     @NotBlank(message = "Password cannot be blank")
     private String password;
 }
