@@ -75,4 +75,34 @@ public class User extends BaseEntity {
         this.role = role;
         this.profileUrl = profileUrl;
     }
+
+    public void updateNickname(String nickname) {
+        if (nickname != null && !nickname.isEmpty()) {
+            this.nickname = nickname;
+        }
+    }
+
+    public void updateProfileUrl(String profileUrl) {
+        if (profileUrl != null && !profileUrl.isEmpty()) {
+            this.profileUrl = profileUrl;
+        }
+    }
+
+    public void updateUsername(String username) {
+        if (username != null && !username.isEmpty()) {
+            this.username = username;
+        }
+    }
+
+    public void updatePassword(String encodedPassword) {
+        if (encodedPassword != null && !encodedPassword.isEmpty()) {
+            this.password = encodedPassword;
+        }
+    }
+
+    public void updateEmail(String email) {
+        if (email != null && !email.isEmpty()) {
+            this.email = email;
+        }
+    }
 }
