@@ -44,8 +44,7 @@ public class RoutineController {
     @PostMapping("/upload")
     public ResponseCustom<Message> uploadRoutine(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
-            @Parameter(description = "Schemas의 completeRoutineRequest를 참고해주세요.", required = true) @Valid @RequestBody CompleteRoutineRequest completeRoutineRequest,
-            @Parameter(description = "file 이미지 업로드", required = true) @Valid @RequestParam("file") MultipartFile file
+            @Parameter(description = "Schemas의 completeRoutineRequest를 참고해주세요.", required = true) @Valid @ModelAttribute CompleteRoutineRequest completeRoutineRequest
     ) {
         if (token == null) {
             throw new InvalidTokenException();
@@ -56,7 +55,7 @@ public class RoutineController {
             throw new IllegalArgumentException("Invalid token");
         }
         Long userId = jwtUtil.extractId(jwt);
-        String imgURL = s3Service.uploadImageToS3(file);
+        String imgURL = s3Service.uploadImageToS3(completeRoutineRequest.file());
         return ResponseCustom.OK(routineService.completeRoutine(userId, completeRoutineRequest, imgURL));
     }
 
