@@ -45,12 +45,13 @@ public class TeamService {
                 .build();
     }
 
-    @jakarta.transaction.Transactional
+    @Transactional
     public List<findByTeamIdResponse> findTeamByUserId(Long userId) {
         Long teamId = userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException("User Not Found")).getTeam().getId();
         List<User> users = userRepository.findByTeamId(teamId);
         return  users.stream()
+                .filter(user -> !user.getId().equals(userId)) // userId와 일치하지 않는 사용자만 필터링
                 .map(user -> findByTeamIdResponse.builder()
                         .id(user.getId())
                         .username(user.getUsername())
