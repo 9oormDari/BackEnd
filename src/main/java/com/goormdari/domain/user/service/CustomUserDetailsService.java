@@ -1,4 +1,4 @@
-package com.goormdari.domain.user.domain.service;
+package com.goormdari.domain.user.service;
 
 import com.goormdari.domain.user.domain.CustomUserDetails;
 import com.goormdari.domain.user.domain.User;

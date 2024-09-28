@@ -5,7 +5,7 @@ import com.goormdari.domain.calendar.exception.InvalidTokenException;
 import com.goormdari.domain.routine.application.RoutineService;
 import com.goormdari.domain.routine.domain.Routine;
 import com.goormdari.domain.routine.dto.request.CompleteRoutineRequest;
-import com.goormdari.domain.user.domain.service.UserService;
+import com.goormdari.domain.user.service.UserService;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import com.goormdari.global.config.s3.S3Service;
 import com.goormdari.global.payload.ErrorResponse;
