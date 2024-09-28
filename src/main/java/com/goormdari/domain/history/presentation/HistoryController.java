@@ -3,7 +3,6 @@ package com.goormdari.domain.history.presentation;
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
 import com.goormdari.domain.history.application.HistoryService;
 import com.goormdari.domain.history.domain.dto.response.HistoryResponse;
-import com.goormdari.domain.routine.domain.repository.RoutineRepository;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
