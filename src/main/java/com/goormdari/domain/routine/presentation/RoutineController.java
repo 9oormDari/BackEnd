@@ -67,7 +67,6 @@ public class RoutineController {
     @DeleteMapping("/upload")
     public ResponseCustom<Message> deleteRoutine(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token,
-            @Parameter(description = "이미지 url", required = true) @Valid @RequestParam("imgURL") String imgURL,
             @Parameter(description = "루틴 Index", required = true) @Valid @RequestParam("routineIndex") Long routineIndex
     ) {
         if (token == null) {
@@ -79,7 +78,6 @@ public class RoutineController {
             throw new IllegalArgumentException("Invalid token");
         }
         Long userId = jwtUtil.extractId(jwt);
-        s3Service.deleteImageOnS3(imgURL);
         return ResponseCustom.OK(routineService.deleteRoutineByUserIdAndRoutineIndex(userId, routineIndex));
     }
 
