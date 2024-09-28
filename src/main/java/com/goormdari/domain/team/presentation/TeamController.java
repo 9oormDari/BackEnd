@@ -5,6 +5,7 @@ import com.goormdari.domain.team.application.TeamService;
 import com.goormdari.domain.team.dto.request.CreateTeamRequest;
 import com.goormdari.domain.team.dto.response.CreateTeamResponse;
 import com.goormdari.domain.team.dto.response.findAllRoutineByUserIdResponse;
+import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import com.goormdari.global.payload.ErrorResponse;
 import com.goormdari.global.payload.Message;
@@ -19,6 +20,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Team", description = "Team API")
 @RestController
@@ -103,6 +106,27 @@ public class TeamController {
         }
         Long userId = jwtUtil.extractId(jwt);
         return ResponseCustom.OK(teamService.findAllRoutineByUserId(userId));
+    }
+
+    @Operation(summary = "팀 참가 유저 명단 조회", description = "팀에 존재하는 유저 명단")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공 ", content = {@Content(mediaType = "application/json", schema = @Schema(implementation =  findByTeamIdResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "조회 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @GetMapping("/user-list")
+    public ResponseCustom<List<findByTeamIdResponse>> getTeamMember(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @RequestHeader("Authorization") String token
+    ) {
+        if (token == null) {
+            throw new InvalidTokenException();
+        }
+
+        String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
+        if (!jwtUtil.validateToken(jwt)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        Long userId = jwtUtil.extractId(jwt);
+        return ResponseCustom.OK(teamService.findTeamByUserId(userId));
     }
 
 }

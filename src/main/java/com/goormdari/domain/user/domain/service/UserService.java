@@ -44,19 +44,6 @@ public class UserService {
 
         return findCurrentStepResponse.builder().currentStep(user.getCurrentStep()).build();
     }
-
-    @Transactional
-    public List<findByTeamIdResponse> findTeamByUserId(Long userId) {
-        Long teamId = userRepository.findById(userId)
-                .orElseThrow(()->new NotFoundException("User Not Found")).getTeam().getId();
-        List<User> users = userRepository.findByTeamId(teamId);
-        return  users.stream()
-                .map(user -> findByTeamIdResponse.builder()
-                        .id(user.getId())
-                        .username(user.getUsername())
-                        .build())
-                .collect(Collectors.toList());
-    }
     @Transactional
     public Long save(AddUserRequest dto) {
         // 사용자 이름 중복 체크
