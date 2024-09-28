@@ -1,6 +1,7 @@
 package com.goormdari.domain.user.presentation;
 
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
+import com.goormdari.domain.user.dto.request.UpdateUserRequest;
 import com.goormdari.domain.user.dto.response.UserInfoResponse;
 import com.goormdari.domain.user.service.UserService;
 import com.goormdari.domain.user.dto.response.FindCurrentStepResponse;
