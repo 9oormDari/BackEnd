@@ -77,4 +77,22 @@ public class TeamService {
                 .message("이메일 전송에 성공했습니다.")
                 .build();
     }
+
+    @Transactional
+    public Message join(String username, String joinCode) {
+
+        Team team = teamRepository.findByJoinCode(joinCode)
+                .orElseThrow(() -> new NotFoundException("참여코드에 해당하는 방을 찾을 수 없습니다."));
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        user.updateTeam(team);
+
+
+        return Message
+                .builder()
+                .message("팀(방)에 참여했습니다.")
+                .build();
+    }
 }
