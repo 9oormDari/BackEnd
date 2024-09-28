@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByTeamId(Long teamId);
 
     boolean existsByUsername(String username);
+
+    @Query("SELECT COUNT(r) FROM User u LEFT JOIN Routine r ON u.id = r.user.id WHERE u.id = :userId")
+    int countUserWithRoutines(Long userId);
 }
