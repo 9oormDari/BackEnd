@@ -55,6 +55,7 @@ public class TeamService {
                 .map(user -> findByTeamIdResponse.builder()
                         .id(user.getId())
                         .username(user.getUsername())
+                        .profileUrl(user.getProfileUrl())
                         .build())
                 .collect(Collectors.toList());
     }
