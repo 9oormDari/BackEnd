@@ -1,5 +1,6 @@
 package com.goormdari.domain.routine.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.goormdari.domain.common.BaseEntity;
 import com.goormdari.domain.user.domain.User;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class Routine extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     private String routineImg;
