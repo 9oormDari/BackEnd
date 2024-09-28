@@ -39,7 +39,6 @@ public class RoutineService {
                 .routineName(completeRoutineRequest.routineName())
                 .build();
 
-        user.updateCurrentStep(user.getCurrentStep()+1);
         routineRepository.save(routine);
 
         return Message.builder()
@@ -54,7 +53,6 @@ public class RoutineService {
         Routine routine = routineRepository.findByRoutineIndexAndUserId(userId,routineIndex);
         routineRepository.deleteById(routine.getId());
         s3Service.deleteImageOnS3(routine.getRoutineImg());
-        user.updateCurrentStep(user.getCurrentStep()-1);
         return Message.builder()
                 .message("루틴 삭제 성공")
                 .build();

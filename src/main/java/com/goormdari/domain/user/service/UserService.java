@@ -95,6 +95,7 @@ public class UserService {
                 .orElseThrow(()->new NotFoundException("User Not Found: " + userId));
 
         return UserInfoResponse.builder()
+                .id(user.getId())
                 .nickname(user.getNickname())
                 .username(user.getUsername())
                 .email(user.getEmail())
