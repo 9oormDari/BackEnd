@@ -19,13 +19,22 @@ public class History extends BaseEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @Column(name = "goal")
     private String goal;
 
+    @Column(name = "routine1")
     private String routine1;
+
+    @Column(name = "routine2")
     private String routine2;
+
+    @Column(name = "routine3")
     private String routine3;
+
+    @Column(name = "routine4")
     private String routine4;
 
+    @Column(name = "is_success")
     private Boolean isSuccess;
 
     @ManyToOne(fetch = FetchType.LAZY)

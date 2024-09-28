@@ -20,11 +20,15 @@ public class Calendar extends BaseEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @Column(name = "success_count")
     private int success_count;
 
+    @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "date")
     private LocalDate date;
 
+    @Column(name = "goal")
     private String goal;
 }
