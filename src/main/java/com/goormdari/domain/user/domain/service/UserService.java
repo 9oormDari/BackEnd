@@ -1,12 +1,15 @@
 package com.goormdari.domain.user.domain.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.goormdari.domain.team.domain.Team;
 import com.goormdari.domain.team.domain.repository.TeamRepository;
+import com.goormdari.domain.user.domain.DefaultProfileUrl;
+import com.goormdari.domain.user.domain.dto.response.findByTeamIdResponse;
 import com.goormdari.domain.user.domain.dto.response.findCurrentStepResponse;
 import com.goormdari.domain.user.domain.User;
-import com.goormdari.domain.user.domain.dto.request.AddUserRequest;
-import com.goormdari.domain.user.domain.dto.response.JwtResponse;
-import com.goormdari.domain.user.domain.dto.request.LoginRequest;
+import com.goormdari.domain.user.domain.dto.AddUserRequest;
+import com.goormdari.domain.user.domain.dto.JwtResponse;
+import com.goormdari.domain.user.domain.dto.LoginRequest;
 import com.goormdari.domain.user.domain.repository.UserRepository;
 import com.goormdari.global.config.security.jwt.JWTUtil;
 import jakarta.transaction.Transactional;
@@ -19,6 +22,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -45,12 +52,15 @@ public class UserService {
             throw new IllegalArgumentException("Username is already exists.");
         }
 
+
+
         // 사용자 저장
         return userRepository.save(User.builder()
                 .nickname(dto.getNickname())
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .role("ROLE_USER")
+                .profileUrl(DefaultProfileUrl.getRandomProfileUrl())
                 .build()).getId();
     }
 
