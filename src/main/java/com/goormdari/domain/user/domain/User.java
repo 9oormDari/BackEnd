@@ -31,13 +31,19 @@ public class User extends BaseEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "profile_url")
     private String profileUrl;
 
+    @Column(name = "role")
     private String role;
-  
+
+    @Column(name = "goal")
     private String goal;
+
+    @Column(name = "dead_line")
     private LocalDate deadLine;
 
     @ManyToOne(fetch = FetchType.LAZY)

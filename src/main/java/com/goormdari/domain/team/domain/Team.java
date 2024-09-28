@@ -21,17 +21,28 @@ public class Team extends BaseEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "goal")
     private String goal;
 
+    @Column(name = "dead_line")
     private LocalDate deadLine;
 
+    @Column(name = "routine1")
     private String routine1;
+
+    @Column(name = "routine2")
     private String routine2;
+
+    @Column(name = "routine3")
     private String routine3;
+
+    @Column(name = "routine4")
     private String routine4;
 
+    @Column(name = "join_code")
     private String joinCode;
 
     @Builder
