@@ -1,4 +1,4 @@
-package com.goormdari.domain.user.domain.dto.request;
+package com.goormdari.domain.user.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
