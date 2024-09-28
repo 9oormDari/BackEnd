@@ -12,6 +12,9 @@ import org.hibernate.sql.Update;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+fn
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +30,9 @@ public class HistoryService {
             throw new IllegalArgumentException("루틴이 입력되지 않았습니다.");
         }
 
-        Team team = teamRepository.findById(dto.teamId()).orElseThrow(() -> new IllegalArgumentException("팀을 찾을 수 없습니다."))
+        Team team = teamRepository.findById(dto.teamId()).orElseThrow(() -> new IllegalArgumentException("팀을 찾을 수 없습니다."));
+
+        Boolean isSuccess = updateHistorySuccessStatus(dto.routineIds());
 
         return historyRepository.save(History.builder()
                 .goal(dto.goal())
@@ -35,7 +40,9 @@ public class HistoryService {
                 .routine2(dto.routine2())
                 .routine3(dto.routine3())
                 .routine4(dto.routine4())
-                .team(team)
+                .isSuccess(isSuccess)
+                .createAt(LocalDateTime.now())
+//                .team(team)
                 .build()).getId();
     }
 
@@ -48,12 +55,19 @@ public class HistoryService {
 
     public
 
-    public Boolean isSuccessRoutine(Long routineId, CreateHistoryRequest dto) {
+    // 개별 루틴 성공 확인 메소드
+    public Boolean isRoutineSuccessful(Long routineId) {
+        Routine routine = routineRepository.findById(routineId).orElseTrow(() -> new IllegalArgumentException("루틴을 찾을 수 없습니다."));
+        return routine.getRoutineImge() != null && !routine.getRoutineImge().isEmpty();
+    }
 
-        Routine routine = routineRepository.findById(routineId);
-
-        if (routine.getRoutineImage().isEmpty()) {
-            return false;
+    // 모든 루틴 성공 확인 메소드
+    public Boolean updateHistorySuccessStatus(List<Long> routineIds) {
+        for (Long routineId : routineIds) {
+            if (!isRoutineSuccessful(routineId)) {
+                return false;
+            }
         }
+        return true;
     }
 }

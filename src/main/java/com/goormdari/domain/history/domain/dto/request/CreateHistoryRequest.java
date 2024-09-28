@@ -2,6 +2,8 @@ package com.goormdari.domain.history.domain.dto.request;
 
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 public record CreateHistoryRequest(
         String goal,
@@ -9,6 +11,7 @@ public record CreateHistoryRequest(
         String routine2,
         String routine3,
         String routine4,
-        Long teamId
+        List<Long> routineIds
+//        Long teamId
 ) {
 }

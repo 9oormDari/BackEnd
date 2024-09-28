@@ -29,24 +29,20 @@ public class History extends BaseEntity {
 
     private LocalDateTime createAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "team_id")
+//    private Team team;
 
     @Builder
-    public History(String goal, String routine1, String routine2, String routine3, String routine4, Team team) {
+    public History(String goal, String routine1, String routine2, String routine3, String routine4, Boolean isSuccess, LocalDateTime createAt) {
         this.goal = goal;
         this.routine1 = routine1;
         this.routine2 = routine2;
         this.routine3 = routine3;
         this.routine4 = routine4;
-        this.team = team;
-        this.createAt = LocalDateTime.now();
-        this.isSuccess = false;
-    }
-
-    public void setIsSuccess(Boolean isSuccess) {
+//        this.team = team;
         this.isSuccess = isSuccess;
+        this.createAt = createAt;
     }
 
 }
