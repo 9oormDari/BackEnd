@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class UserInfoResponse {
+    private Long id;
     private String nickname;
     private String username;
     private String email;
