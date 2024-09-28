@@ -33,6 +33,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
 
+
     @Transactional
     public FindCurrentStepResponse findCurrentStepById(Long userId) {
         User user = userRepository.findById(userId)
