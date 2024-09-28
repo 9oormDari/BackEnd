@@ -1,7 +1,6 @@
 package com.goormdari.domain.routine.presentation;
 
 
-import com.goormdari.domain.calendar.dto.response.CheckGoalProgressResponse;
 import com.goormdari.domain.calendar.exception.InvalidTokenException;
 import com.goormdari.domain.routine.application.RoutineService;
 import com.goormdari.domain.routine.domain.Routine;
@@ -22,7 +21,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
