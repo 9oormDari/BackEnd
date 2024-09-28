@@ -1,4 +1,4 @@
-package com.goormdari.domain.user.domain.dto;
+package com.goormdari.domain.user.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

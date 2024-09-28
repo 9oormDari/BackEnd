@@ -1,8 +1,8 @@
 package com.goormdari.domain.user.presentation;
 
-import com.goormdari.domain.user.domain.dto.AddUserRequest;
-import com.goormdari.domain.user.domain.dto.JwtResponse;
-import com.goormdari.domain.user.domain.dto.LoginRequest;
+import com.goormdari.domain.user.domain.dto.request.AddUserRequest;
+import com.goormdari.domain.user.domain.dto.response.JwtResponse;
+import com.goormdari.domain.user.domain.dto.request.LoginRequest;
 import com.goormdari.domain.user.domain.service.UserService;
 
 import jakarta.validation.Valid;
