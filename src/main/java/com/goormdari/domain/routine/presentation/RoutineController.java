@@ -32,7 +32,7 @@ public class RoutineController {
 
     private final S3Service s3Service;
     private final RoutineService routineService;
-    private final UserService userService;
+
 
     private final JWTUtil jwtUtil;
 
